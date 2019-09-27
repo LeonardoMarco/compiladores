@@ -1,1 +1,15 @@
-var1 "123macaco" - !tron != life
+olhar antes e depois
+
+se antes for um numero ou string é um sinal de menos
+
+mas se for um operador, é uma negação
+
+
+se o que vem depois é um operador, não é uma negação
+
+se for numero ou string é uma negação
+
+mas só vai vim antes se for um operador
+
+alnum - +
++ - alnum

@@ -12,6 +12,8 @@ class TS:
       self.ts['else'] = Token(Tag.KW_ELSE, 'else', 0, 0)
       self.ts['then'] = Token(Tag.KW_THEN, 'then', 0, 0)
       self.ts['print'] = Token(Tag.KW_PRINT, 'print', 0, 0)
+      self.ts['or'] = Token(Tag.OP_OR, 'or', 0, 0)
+      self.ts['and'] = Token(Tag.OP_AND, 'and', 0, 0)
 
    def getToken(self, lexema):
       token = self.ts.get(lexema)
@@ -22,4 +24,5 @@ class TS:
 
    def printTS(self):
       for k, t in (self.ts.items()):
-         print(k, ":", t.toString())
+         # print(k, ":", t.toString())
+         print (self.ts.items()[0])

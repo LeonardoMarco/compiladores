@@ -22,9 +22,26 @@ class Tag(Enum):
     OP_MAIOR = 13
     OP_IGUAL = 14
     OP_DIFERENTE = 15
+    OP_PRODUTO = 35
+    OP_DIVISAO = 36
+    OP_ADICAO = 37
+    OP_SUBTRACAO = 38
+    OP_AND = 39
+    OP_OR = 40
     
+    # Operador unario
+    OP_UNARIO = 34
+
     # Identificador
     ID = 20
 
     # Numeros
     NUM = 30
+    INTEGER = 31
+    DOUBLE = 32
+    
+
+    # String
+    STRING = 33
+
+
