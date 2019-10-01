@@ -14,6 +14,23 @@ class Tag(Enum):
     KW_ELSE = 2
     KW_THEN = 3
     KW_PRINT = 4
+    KW_CLASS = 41
+    KW_MAIN = 42
+    KW_DEF = 43
+    KW_ARG = 44
+    KW_END = 45
+    KW_VOID = 45
+    KW_MAINM = 47
+    KW_DEFSTATIC = 48
+    KW_BOOL = 49
+    KW_INTEGER = 50
+    KW_STRING = 51
+    KW_DOUBLE = 52
+    KW_WHILE = 53
+    KW_WRITELN = 54
+    KW_RETURN = 63
+    KW_TRUE = 64
+    KW_FALSE = 65
 
     # Operadores 
     OP_MENOR = 10
@@ -44,4 +61,13 @@ class Tag(Enum):
     # String
     STRING = 33
 
+    # Simbolos
+    SIMB_VIRGULA = 55
+    SIMB_PONTO_VIRGULA = 56
+    SIMB_DOIS_PONTOS = 57
+    SIMB_PONTO = 58
+    SIMB_ABRE_PARENT = 59
+    SIMB_FECHA_PARENT = 60
+    SIMB_ABRE_CHAVE = 61
+    SIMB_FECHA_CHAVE = 62
 
