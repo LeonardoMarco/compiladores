@@ -71,3 +71,7 @@ class Tag(Enum):
     SIMB_ABRE_CHAVE = 61
     SIMB_FECHA_CHAVE = 62
 
+    SMB_AB_CHA = 70
+    SMB_FE_CHA = 71
+    OP_SOMA = 72
+    OP_SUB = 73
