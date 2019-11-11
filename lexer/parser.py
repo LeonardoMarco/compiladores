@@ -48,7 +48,10 @@ class Parser():
             else:
                 self.sinalizaErroSintatico("Esperado \":\"; encontrado " + "\"" + self.token.getLexema() + "\"")
     def DeclaraID(self):
-        pass
+        self.TipoPrimitivo()
+        self.ID()
+        if(not self.eat(Tag.SIMB_PONTO_VIRGULA)):
+            self.sinalizaErroSintatico("Esperado \";\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
     def ListaFuncao(self):
         self.ListaFuncaoLinha()
@@ -58,21 +61,40 @@ class Parser():
 
     def Funcao(self):
         if(self.eat(Tag.KW_DEF)):
+            self.TipoPrimitivo()
             self.ID()
             if(self.eat(Tag.SIMB_ABRE_PARENT)):
                 self.ListaArg()
+                if(self.eat(Tag.SIMB_FECHA_PARENT)):
+                    if(self.eat(Tag.SIMB_DOIS_PONTOS)):
+                        self.RegexDeclaraId()
+                        self.ListaCmd()
+                    else:
+                        self.sinalizaErroSintatico("Esperado \":\"; encontrado " + "\"" + self.token.getLexema() + "\"")    
+                else:
+                    self.sinalizaErroSintatico("Esperado \"(\"; encontrado " + "\"" + self.token.getLexema() + "\"")    
+            else:
+                self.sinalizaErroSintatico("Esperado \"(\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
-    def regexDeclaraId(self):
-        pass
+
+    def RegexDeclaraId(self):
+        if(self.token.getNome() == Tag.KW_BOOL or self.token.getNome() == Tag.KW_INTEGER or self.token.getNome()== Tag.KW_STRING or self.token.getNome() == Tag.KW_DOUBLE or self.token.getNome() == Tag.KW_VOID):
+            self.DeclaraID()
+            self.RegexDeclaraId()
+        else:
+            return
 
     def ListaArg(self):
-        print('parei aqui')
+        self.Arg()
+        self.ListaArgLinha()
 
     def ListaArgLinha(self):
-        pass
+        if(self.eat(Tag.SIMB_VIRGULA)):
+            self.ListaArg()
 
     def Arg(self):
-        pass
+        self.TipoPrimitivo()
+        self.ID()
 
     def Retorno(self):
         pass
@@ -81,22 +103,38 @@ class Parser():
         pass
 
     def TipoPrimitivo(self):
-        pass
+        if(self.eat(Tag.KW_BOOL) or self.eat(Tag.KW_INTEGER) or self.eat(Tag.KW_STRING) or self.eat(Tag.KW_DOUBLE) or self.eat(Tag.KW_VOID)):
+            pass
+        else:
+            self.sinalizaErroSintatico("Esperado \"Operator\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
     def ListaCmd(self):
-        pass
+        self.ListaCmdLinha()
 
     def ListaCmdLinha(self):
-        pass
+        self.Cmd()
 
     def Cmd(self):
-        pass
+        if self.token.getNome() == Tag.KW_IF:
+            self.CmdIF()
+        elif self.token.getNome() == Tag.KW_WHILE:
+            self.CmdWhile()
+        elif self.token.getNome() == Tag.ID:
+            self.CmdAtribFun
+        elif self.token.getNome() == Tag.KW_WRITELN:
+            self.CmdWrite()
+        else:
+            self.sinalizaErroSintatico("Esperado \"CMD if, while, Id, or write\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
     def CmdAtribFun(self):
         pass
 
     def CmdIF(self):
-        pass
+        if(self.eat(Tag.KW_IF)):
+            if(self.eat(Tag.SIMB_ABRE_PARENT)):
+                self.Expressao()
+        else:
+            self.sinalizaErroSintatico("Esperado \"if\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
     def CmdIFLinha(self):
         pass
@@ -120,28 +158,44 @@ class Parser():
         pass
 
     def Expressao(self):
-        pass
+        self.Exp1()
+        self.ExpLinha()
 
     def ExpLinha(self):
-        pass
+        if(self.eat(Tag.OP_OR) or self.eat(Tag.OP_AND)):
+            self.Exp1()
+            self.ExpLinha()
+        else:
+            return
 
     def Exp1(self):
-        pass
+        self.Exp2()
+        self.Exp1Linha()
+        
 
     def Exp1Linha(self):
-        pass
+        if(self.eat(Tag.OP_MENOR) or self.eat(Tag.OP_MENOR_IGUAL) or self.eat(Tag.OP_MAIOR) or self.eat(Tag.OP_MAIOR_IGUAL) or self.eat(Tag.OP_IGUAL) or self.eat(Tag.OP_DIFERENTE)):
+            self.Exp2()
+            self.ExpLinha()
+        else:
+            return
 
     def Exp2(self):
-        pass
+        self.Exp3()
+        self.Exp2Linha
 
     def Exp2Linha(self):
-        pass
+        if(self.eat(Tag.OP_ADICAO) or self.eat(Tag.OP_SUBTRACAO)):
+            self.Exp3()
+        else:
+            return
 
     def Exp3(self):
-        pass
+        self.Exp4()
+        self.Exp3Linha()
 
     def Exp3Linha(self):
-        pass
+        print('parei aqui. Seguindo fazendo Exp3Linha, lembrando que estou fazendo o CMDIf, e depois seguir em diante.')
 
     def Exp4(self):
         pass

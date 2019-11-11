@@ -1,1 +1,5 @@
-  class teste:
+class teste: 
+  def bool pontos(bool uai, double vinte):
+    integer juntos;
+    integer juntos2;
+    if(or =)
