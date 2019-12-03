@@ -1,5 +1,16 @@
-class teste: 
-  def bool pontos(bool uai, double vinte):
-    integer juntos;
-    integer juntos2;
-    if(or =)
+class Pressao2:
+		def bool podeEntregarDepois(bool dizQueSim):
+			return (true == dizQueSim);
+		end;
+
+		defstatic void main(String[] args):
+			write("Caros alunos de Compiladores,");
+			write("");
+			write("Este eh um codigo de exemplo em Pyscal!");
+			write("");
+			
+			if(podeEntregarDepois(true)):
+				write("Pode, mas nao tem ponto.");
+			end;
+		end;
+	end.
