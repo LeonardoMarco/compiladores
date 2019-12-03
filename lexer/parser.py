@@ -38,7 +38,8 @@ class Parser():
 
     def ID(self):
         if not self.eat(Tag.ID):
-            self.sinalizaErroSintatico("Esperado \"ID\"; encontrado " + "\"" + self.token.getLexema() + "\"")
+            # self.sinalizaErroSintatico("Esperado \"ID\"; encontrado " + "\"" + self.token.getLexema() + "\"")
+            return False
         else:
             return True
 
@@ -120,13 +121,29 @@ class Parser():
     def Main(self):
         if(self.eat(Tag.KW_DEFSTATIC)):
             if(self.eat(Tag.KW_VOID)):
-                if(self.eat(Tag.KW_MAIN)):
+                if(self.eat(Tag.KW_MAINM)):
                     if(self.eat(Tag.SIMB_ABRE_PARENT)):
-                        # if(self.eat(Tag.))
-                        #     if(self.eat(Tag.SIMB_ABRE_PARENT)):
-
-                        #     else:
-                        #         self.sinalizaErroSintatico('Esperado \""String"\"; encontrado ' + '\"' + self.token.getLexema() + '\"')
+                        if(self.token.getLexema() == "String" and self.eat(Tag.KW_STRING)):
+                            if(self.eat(Tag.SIMB_ABRE_CHAVE)):
+                                if(self.eat(Tag.SIMB_FECHA_CHAVE)):
+                                    if(self.ID()):
+                                        if(self.eat(Tag.SIMB_FECHA_PARENT)):
+                                            if(self.eat(Tag.SIMB_DOIS_PONTOS)):
+                                                print('parei p resolver isso daqui')
+                                                self.RegexDeclaraId()
+                                                self.ListaCmd()
+                                            else:
+                                                self.sinalizaErroSintatico('Esperado \"")"\"; encontrado ' + '\"' + self.token.getLexema() + '\"')
+                                        else:
+                                            self.sinalizaErroSintatico('Esperado \"")"\"; encontrado ' + '\"' + self.token.getLexema() + '\"')    
+                                    else:
+                                        self.sinalizaErroSintatico('Esperado \""ID"\"; encontrado ' + '\"' + self.token.getLexema() + '\"')
+                                else:
+                                    self.sinalizaErroSintatico('Esperado \""]"\"; encontrado ' + '\"' + self.token.getLexema() + '\"')
+                            else:
+                                self.sinalizaErroSintatico('Esperado \""["\"; encontrado ' + '\"' + self.token.getLexema() + '\"')
+                        else:
+                            self.sinalizaErroSintatico('Esperado \""String"\"; encontrado ' + '\"' + self.token.getLexema() + '\"')
                     else:
                         self.sinalizaErroSintatico("Esperado \"(\"; encontrado " + "\"" + self.token.getLexema() + "\"")
                 else:
@@ -148,22 +165,24 @@ class Parser():
     def ListaCmdLinha(self):
         if(self.token.getLexema() != "" or self.token.getLexema() != " "):
             self.Cmd()
-            self.ListaCmdLinha()
+            self.eat(Tag.KW_RETURN)
+            # self.ListaCmdLinha()
+            
 
     def Cmd(self):
-        if self.token.getNome() == Tag.KW_IF:
+        if self.eat(Tag.KW_IF):
             self.CmdIF()
-        elif self.token.getNome() == Tag.KW_WHILE:
+        elif self.eat(Tag.KW_WHILE):
             self.CmdWhile()
-        elif self.token.getNome() == Tag.ID:
-            self.CmdAtribFun
-        elif self.token.getNome() == Tag.KW_WRITELN:
+        elif self.eat(Tag.KW_WRITELN):
             self.CmdWrite()
         else:
-            self.sinalizaErroSintatico("Esperado \"CMD if, while, Id, or write\"; encontrado " + "\"" + self.token.getLexema() + "\"")
+            self.token = self.lexer.proxToken()
+            self.CmdAtribFun()
 
     def CmdAtribFun(self):
-        pass
+        if self.token.getNome() == Tag.SIMB_ABRE_PARENT:
+            self.CmdFuncao()
 
     def CmdIF(self):
         if(self.eat(Tag.KW_IF)):
@@ -313,7 +332,8 @@ class Parser():
     def Exp4(self):
         if(self.ID()):
             self.Exp4Linha()
-        elif(self.eat(Tag.KW_INTEGER) or self.eat(Tag.KW_DOUBLE) or self.eat(Tag.KW_STRING) or self.eat(Tag.KW_TRUE) or self.eat(Tag.KW_FALSE) or self.eat(Tag.OP_UNARIO)):
+        elif(self.token.getNome() == Tag.KW_INTEGER or self.token.getNome() == Tag.KW_DOUBLE or self.token.getNome() == Tag.KW_STRING or self.token.getNome() == Tag.KW_TRUE or self.token.getNome() == Tag.KW_FALSE or self.token.getNome() == Tag.OP_UNARIO):
+            self.token = self.lexer.proxToken()
             return
         elif(self.token.getNome() == Tag.SIMB_ABRE_PARENT):
             self.Expressao()
