@@ -4,7 +4,9 @@ class Pressao2:
 		end;
 
     defstatic void main(String[] args):
-    	writeln("Caros alunos de Compiladores,");
+    	bool leo=
+		
+		writeln("Caros alunos de Compiladores,");
 		writeln("Este eh um codigo de exemplo em Pyscal!");
 		writeln("TESTE DO LON");
 		

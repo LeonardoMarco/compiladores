@@ -131,7 +131,6 @@ class Parser():
                                     if(self.ID()):
                                         if(self.eat(Tag.SIMB_FECHA_PARENT)):
                                             if(self.eat(Tag.SIMB_DOIS_PONTOS)):
-                                                # print('parei p resolver isso daqui')
                                                 self.RegexDeclaraId()
                                                 self.ListaCmd()
                                                 if(self.eat(Tag.KW_END)):
@@ -183,11 +182,14 @@ class Parser():
             self.CmdWrite()
         else:
             self.token = self.lexer.proxToken()
-            self.CmdAtribFun()
+            self.CmdAtribFunc()
 
-    def CmdAtribFun(self):
+    def CmdAtribFunc(self):
         if self.token.getNome() == Tag.SIMB_ABRE_PARENT:
             self.CmdFuncao()
+        elif self.token.getNome() == Tag.OP_IGUAL:
+            print('caiu aqui pai')
+            self.CmdAtribui()
 
     def CmdIF(self):
         if(self.eat(Tag.KW_IF)):
