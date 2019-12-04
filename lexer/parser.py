@@ -1,9 +1,11 @@
 import sys
+import copy
 
 from ts import TS
 from tag import Tag
 from token import Token
 from lexer import Lexer
+from no import No
 
 class Parser():
 
@@ -11,13 +13,20 @@ class Parser():
       self.lexer = lexer
       self.token = lexer.proxToken() # Leitura inicial obrigatoria do primeiro simbolo
 
+    def sinalizaErroSemantico(self, message):
+      print("[Erro Semantico] na linha " + str(self.token.getLinha()) + " e coluna " + str(self.token.getColuna()) + ": ")
+      print(message, "\n")
+
     def sinalizaErroSintatico(self, message):
       print("[Erro Sintatico] na linha " + str(self.token.getLinha()) + " e coluna " + str(self.token.getColuna()) + ": ")
       print(message, "\n")
 
     def advance(self):
-      print("[DEBUG] token: ", self.token.toString())
+    #   print("[DEBUG] token: ", self.token.toString())
       self.token = self.lexer.proxToken()
+
+      if self.token is None: # erro no Lexer
+        sys.exit(0)
    
     def skip(self, message):
       self.sinalizaErroSintatico(message)
@@ -30,6 +39,7 @@ class Parser():
          return True
       else:
          return False
+   
    # Programa -> CMD EOF
     def Programa(self):
       self.Classe()
@@ -44,8 +54,12 @@ class Parser():
             return True
 
     def Classe(self):
+        tempToken = copy.copy(self.token) # armazena token corrente (necessario para id da segunda regra)
         if(self.eat(Tag.KW_CLASS)):
             self.ID()
+            self.lexer.ts.removeToken(tempToken.getLexema())
+            tempToken.setTipo(Tag.TIPO_VAZIO)
+            self.lexer.ts.addToken(tempToken.getLexema(), tempToken)
             if(self.eat(Tag.SIMB_DOIS_PONTOS)):
                 self.ListaFuncao()
                 self.Main()
@@ -58,7 +72,9 @@ class Parser():
                 self.sinalizaErroSintatico("Esperado \":\"; encontrado " + "\"" + self.token.getLexema() + "\"")
     def DeclaraID(self):
         self.TipoPrimitivo()
+        tempToken = copy.copy(self.token)
         self.ID()
+        self.lexer.ts.addToken(tempToken.getLexema(), tempToken)
         if(not self.eat(Tag.SIMB_PONTO_VIRGULA)):
             self.sinalizaErroSintatico("Esperado \";\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
@@ -163,8 +179,11 @@ class Parser():
             self.sinalizaErroSintatico("Esperado \"defstatic\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
     def TipoPrimitivo(self):
-        if(self.eat(Tag.KW_BOOL) or self.eat(Tag.KW_INTEGER) or self.eat(Tag.KW_STRING) or self.eat(Tag.KW_DOUBLE) or self.eat(Tag.KW_VOID)):
-            pass
+        tipoP = No()
+        # if(self.eat(Tag.KW_BOOL) or self.eat(Tag.KW_INTEGER) or self.eat(Tag.KW_STRING) or self.eat(Tag.KW_DOUBLE) or self.eat(Tag.KW_VOID)):
+        #     pass
+        if(self.eat(Tag.KW_BOOL)):
+            tipoP.tipo = Tag.TIPO_LOGICO
         else:
             self.sinalizaErroSintatico("Esperado \"Operator\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 

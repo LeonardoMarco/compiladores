@@ -75,3 +75,9 @@ class Tag(Enum):
     SMB_FE_CHA = 71
     OP_SOMA = 72
     OP_SUB = 73
+
+    TIPO_VAZIO   = 1000
+    TIPO_LOGICO  = 1001
+    TIPO_INT     = 1002
+    TIPO_DOUBLE  = 1003
+    TIPO_ERRO    = 1004

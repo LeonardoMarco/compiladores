@@ -2,21 +2,6 @@ class Pressao2:
 	def bool podeEntregarDepois(bool dizQueSim):
 		return (true == dizQueSim);
 	end;
-
-	def bool tentandofazertrab(bool okay):
-		return (true);
-	end;
-
-	def void fazNada(String v1):
-		return (true);
-   	end;
-
-	def void outroteste(bool ok):
-		while(x <= y):
-        	y = x;
-      	end;
-      	return false;
-	end;
 	
     defstatic void main(String[] args):
     	bool teste;
@@ -24,11 +9,5 @@ class Pressao2:
 		
 		writeln("Teste 1:");
 		writeln("a");
-				
-		if (booleanFunction(true)):
-			writeln("Nao entrei aqui");
-		else:
-			writeln("Mas aqui eu entrei");
-		end;
 	end;
 end.

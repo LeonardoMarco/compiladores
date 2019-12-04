@@ -139,7 +139,7 @@ class Lexer():
                token = self.ts.getToken(lexema)
                if(token is None):
                   token = Token(Tag.STRING, lexema, self.n_line, self.n_column)
-                  self.ts.addToken(lexema, token)
+                  # self.ts.addToken(lexema, token)
                self.lexemaAnt = lexema
                return token
          elif (estado == 15):
@@ -159,7 +159,7 @@ class Lexer():
                token = self.ts.getToken('!=')
                if(token is None):
                   token = Token(Tag.OP_DIFERENTE, "!=", self.n_line, self.n_column)
-                  self.ts.addToken('!=', token)
+                  # self.ts.addToken('!=', token)
                self.lexemaAnt = '!='
                return token
             else:
@@ -167,7 +167,7 @@ class Lexer():
                token = self.ts.getToken('!')
                if(token is None):
                   token = Token(Tag.OP_UNARIO, "!", self.n_line, self.n_column)
-                  self.ts.addToken('!', token)
+                  # self.ts.addToken('!', token)
                self.lexemaAnt = '!'
                return token
          elif(estado == 17):
@@ -175,7 +175,7 @@ class Lexer():
                token = self.ts.getToken('<=')
                if(token is None):
                   token = Token(Tag.OP_MENOR_IGUAL, "<=", self.n_line, self.n_column)
-                  self.ts.addToken('<=', token)
+                  # self.ts.addToken('<=', token)
                self.lexemaAnt = '<='
                return token
             else:
@@ -183,7 +183,7 @@ class Lexer():
                token = self.ts.getToken('<')
                if(token is None):
                   token = Token(Tag.OP_MENOR, "<", self.n_line, self.n_column)
-                  self.ts.addToken('<', token)
+                  # self.ts.addToken('<', token)
                self.lexemaAnt = '<'
                return token
          elif(estado == 20):
@@ -191,7 +191,7 @@ class Lexer():
                token = self.ts.getToken('>=')
                if(token is None):
                   token = Token(Tag.OP_MAIOR_IGUAL, ">=", self.n_line, self.n_column)
-                  self.ts.addToken('>=', token)
+                  # self.ts.addToken('>=', token)
                self.lexemaAnt = '>='
                return token
             else:
@@ -199,7 +199,7 @@ class Lexer():
                token = self.ts.getToken('>')
                if(token is None):
                   token = Token(Tag.OP_MAIOR, ">", self.n_line, self.n_column)
-                  self.ts.addToken('>', token)
+                  # self.ts.addToken('>', token)
                self.lexemaAnt = '>'
                return token
          elif(estado == 23):
@@ -207,7 +207,7 @@ class Lexer():
                token = self.ts.getToken('==')
                if(token is None):
                   token = Token(Tag.OP_IGUAL, "==", self.n_line, self.n_column)
-                  self.ts.addToken('==', token)
+                  # self.ts.addToken('==', token)
                self.lexemaAnt = '=='
                return token
             else:
@@ -215,7 +215,7 @@ class Lexer():
                token = self.ts.getToken('=')
                if(token is None):
                   token = Token(Tag.OP_IGUAL, "=", self.n_line, self.n_column)
-                  self.ts.addToken('=', token)
+                  # self.ts.addToken('=', token)
                self.lexemaAnt = '='
                return token
          elif(estado == 27):
@@ -223,7 +223,7 @@ class Lexer():
             token = self.ts.getToken('/')
             if(token is None):
                token = Token(Tag.OP_DIVISAO, "/", self.n_line, self.n_column)
-               self.ts.addToken('/', token)
+               # self.ts.addToken('/', token)
             self.lexemaAnt = '/'
             return token
          elif(estado == 28):
@@ -231,7 +231,7 @@ class Lexer():
             token = self.ts.getToken('*')
             if(token is None):
                token = Token(Tag.OP_PRODUTO, "*", self.n_line, self.n_column)
-               self.ts.addToken('*', token)
+               # self.ts.addToken('*', token)
             self.lexemaAnt = '*'
             return token
          elif(estado == 29):
@@ -239,7 +239,7 @@ class Lexer():
             token = self.ts.getToken('+')
             if(token is None):
                token = Token(Tag.OP_ADICAO, "+", self.n_line, self.n_column)
-               self.ts.addToken('+', token)
+               # self.ts.addToken('+', token)
             self.lexemaAnt = '+'
             return token
          elif(estado == 31):
@@ -253,7 +253,7 @@ class Lexer():
             token = self.ts.getToken(',')
             if(token is None):
                token = Token(Tag.SIMB_VIRGULA, ",", self.n_line, self.n_column)
-               self.ts.addToken(',', token)
+               # self.ts.addToken(',', token)
             self.lexemaAnt = ','
             return token
          elif(estado == 33):
@@ -261,7 +261,7 @@ class Lexer():
             token = self.ts.getToken('.')
             if(token is None):
                token = Token(Tag.SIMB_PONTO, ".", self.n_line, self.n_column)
-               self.ts.addToken('.', token)
+               # self.ts.addToken('.', token)
             self.lexemaAnt = '.'
             return token
          elif(estado == 34):
@@ -269,7 +269,7 @@ class Lexer():
             token = self.ts.getToken(':')
             if(token is None):
                token = Token(Tag.SIMB_DOIS_PONTOS, ":", self.n_line, self.n_column)
-               self.ts.addToken(':', token)
+               # self.ts.addToken(':', token)
             self.lexemaAnt = ':'
             return token
          elif(estado == 35):
@@ -277,7 +277,7 @@ class Lexer():
             token = self.ts.getToken(';')
             if(token is None):
                token = Token(Tag.SIMB_PONTO_VIRGULA, ";", self.n_line, self.n_column)
-               self.ts.addToken(';', token)
+               # self.ts.addToken(';', token)
             self.lexemaAnt = ';'
             return token
          elif(estado == 36):
@@ -285,7 +285,7 @@ class Lexer():
             token = self.ts.getToken('(')
             if(token is None):
                token = Token(Tag.SIMB_ABRE_PARENT, "(", self.n_line, self.n_column)
-               self.ts.addToken('(', token)
+               # self.ts.addToken('(', token)
             self.lexemaAnt = '('
             return token
          elif(estado == 37):
@@ -293,7 +293,7 @@ class Lexer():
             token = self.ts.getToken(')')
             if(token is None):
                token = Token(Tag.SIMB_FECHA_PARENT, ")", self.n_line, self.n_column)
-               self.ts.addToken(')', token)
+               # self.ts.addToken(')', token)
             self.lexemaAnt = ')'
             return token
          elif(estado == 38):
@@ -301,7 +301,7 @@ class Lexer():
             token = self.ts.getToken('[')
             if(token is None):
                token = Token(Tag.SIMB_ABRE_CHAVE, "[", self.n_line, self.n_column)
-               self.ts.addToken('[', token)
+               # self.ts.addToken('[', token)
             self.lexemaAnt = '['
             return token
          elif(estado == 39):
@@ -309,7 +309,7 @@ class Lexer():
             token = self.ts.getToken(']')
             if(token is None):
                token = Token(Tag.SIMB_FECHA_CHAVE, "]", self.n_line, self.n_column)
-               self.ts.addToken(']', token)
+               # self.ts.addToken(']', token)
             self.lexemaAnt = ']'
             return token
 

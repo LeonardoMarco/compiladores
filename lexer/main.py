@@ -12,7 +12,7 @@ if __name__ == "__main__":
    parser.lexer.closeFile()
 
    print("\n=>Tabela de simbolos:")
-#    lexer.printTS()
+   lexer.printTS()
    lexer.closeFile()
     
    print('\n=> Fim da compilacao')
