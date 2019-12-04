@@ -1,17 +1,34 @@
 class Pressao2:
-		def bool podeEntregarDepois(bool dizQueSim):
-			return (true == dizQueSim);
-		end;
+	def bool podeEntregarDepois(bool dizQueSim):
+		return (true == dizQueSim);
+	end;
 
+	def bool tentandofazertrab(bool okay):
+		return (true);
+	end;
+
+	def void fazNada(String v1):
+		return (true);
+   	end;
+
+	def void outroteste(bool ok):
+		while(x <= y):
+        	y = x;
+      	end;
+      	return false;
+	end;
+	
     defstatic void main(String[] args):
-    	bool leo=
+    	bool teste;
+		teste = true;
 		
-		writeln("Caros alunos de Compiladores,");
-		writeln("Este eh um codigo de exemplo em Pyscal!");
-		writeln("TESTE DO LON");
-		
-		if(podeEntregarDepois(true)):
-			writeln("Pode, mas nao tem ponto");
+		writeln("Teste 1:");
+		writeln("a");
+				
+		if (booleanFunction(true)):
+			writeln("Nao entrei aqui");
+		else:
+			writeln("Mas aqui eu entrei");
 		end;
 	end;
 end.
