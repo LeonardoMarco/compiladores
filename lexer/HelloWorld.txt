@@ -1,11 +1,19 @@
 class Pressao2:
 	def bool podeEntregarDepois(bool dizQueSim):
-		return (true == dizQueSim);
+		integer testes;
+		return testes;
+	end;
+
+	def bool podeEntregarDepoiss(bool dizQueSimm):
+		integer testess;
+		return testesss;
 	end;
 	
     defstatic void main(String[] args):
-    	bool teste;
-		teste = true;
+    	integer teste;
+		bool teste2;
+
+		teste2 = teste;
 		
 		writeln("Teste 1:");
 		writeln("a");

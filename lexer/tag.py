@@ -81,3 +81,4 @@ class Tag(Enum):
     TIPO_INT     = 1002
     TIPO_DOUBLE  = 1003
     TIPO_ERRO    = 1004
+    TIPO_STRING = 1005

@@ -71,9 +71,11 @@ class Parser():
             else:
                 self.sinalizaErroSintatico("Esperado \":\"; encontrado " + "\"" + self.token.getLexema() + "\"")
     def DeclaraID(self):
+        noTipoPrimitivo = self.TipoPrimitivo()
         self.TipoPrimitivo()
         tempToken = copy.copy(self.token)
         self.ID()
+        tempToken.setTipo(noTipoPrimitivo.tipo)
         self.lexer.ts.addToken(tempToken.getLexema(), tempToken)
         if(not self.eat(Tag.SIMB_PONTO_VIRGULA)):
             self.sinalizaErroSintatico("Esperado \";\"; encontrado " + "\"" + self.token.getLexema() + "\"")
@@ -89,8 +91,13 @@ class Parser():
 
     def Funcao(self):
         if(self.eat(Tag.KW_DEF)):
+            tempToken = copy.copy(self.token) # armazena token corrente (necessario para id da segunda regra)
+            noTipoPrimitivo = self.TipoPrimitivo()
             self.TipoPrimitivo()
+            tempToken = copy.copy(self.token)
             self.ID()
+            tempToken.setTipo(noTipoPrimitivo.tipo)
+            self.lexer.ts.addToken(tempToken.getLexema(), tempToken)
             if(self.eat(Tag.SIMB_ABRE_PARENT)):
                 self.ListaArg()
                 if(self.eat(Tag.SIMB_FECHA_PARENT)):
@@ -131,6 +138,7 @@ class Parser():
         self.ID()
 
     def Retorno(self):
+        
         if(self.eat(Tag.KW_RETURN)):
             self.Expressao()
             if(not self.eat(Tag.SIMB_PONTO_VIRGULA)):
@@ -179,13 +187,29 @@ class Parser():
             self.sinalizaErroSintatico("Esperado \"defstatic\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
     def TipoPrimitivo(self):
-        tipoP = No()
-        # if(self.eat(Tag.KW_BOOL) or self.eat(Tag.KW_INTEGER) or self.eat(Tag.KW_STRING) or self.eat(Tag.KW_DOUBLE) or self.eat(Tag.KW_VOID)):
-        #     pass
-        if(self.eat(Tag.KW_BOOL)):
-            tipoP.tipo = Tag.TIPO_LOGICO
-        else:
-            self.sinalizaErroSintatico("Esperado \"Operator\"; encontrado " + "\"" + self.token.getLexema() + "\"")
+        noTipoPrimitivo = No()
+        if self.eat(Tag.KW_BOOL):
+            noTipoPrimitivo.tipo = Tag.TIPO_LOGICO
+            return noTipoPrimitivo
+            pass
+        elif self.eat(Tag.KW_INTEGER):
+            noTipoPrimitivo.tipo = Tag.TIPO_INT
+            return noTipoPrimitivo
+            pass
+        elif self.eat(Tag.KW_STRING): 
+            noTipoPrimitivo.tipo = Tag.TIPO_STRING
+            return noTipoPrimitivo
+            pass
+        elif self.eat(Tag.KW_DOUBLE): 
+            noTipoPrimitivo.tipo = Tag.TIPO_DOUBLE
+            return noTipoPrimitivo
+            pass
+        elif self.eat(Tag.KW_VOID):
+            noTipoPrimitivo.tipo = Tag.TIPO_VAZIO
+            return noTipoPrimitivo
+            pass
+        # else:
+        #     self.sinalizaErroSintatico("Esperado \"Operator\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
     def ListaCmd(self):
         self.ListaCmdLinha()
@@ -202,8 +226,8 @@ class Parser():
             self.CmdWhile()
         elif self.token.getNome() == Tag.KW_WRITELN:
             self.CmdWrite()
-        else:
-            self.token = self.lexer.proxToken()
+        elif(self.eat(Tag.ID)):
+            # self.token = self.lexer.proxToken()
             self.CmdAtribFunc()
 
     def CmdAtribFunc(self):
@@ -296,19 +320,14 @@ class Parser():
             self.sinalizaErroSintatico("Esperado \"(\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
     def RegexExp(self):
-        if(self.token.getLexema() != "" or self.token.getLexema() != " "):
+        self.Expressao()
+        self.RegexExpLinha()
+        
+    def RegexExpLinha(self):
+        if(self.eat(Tag.SIMB_VIRGULA)):
             self.Expressao()
             self.RegexExpLinha()
-        else:
-            return
 
-    def RegexExpLinha(self):
-        if(self.token.getLexema() != "" or self.token.getLexema() != " "):
-            if(self.eat(Tag.SIMB_VIRGULA)):
-                self.Expressao()
-                self.RegexExpLinha()
-        else:
-            return
 
     def Expressao(self):
         self.Exp1()
@@ -355,17 +374,44 @@ class Parser():
             return
 
     def Exp4(self):
+        noExp4 = No()
+        tempToken = copy.copy(self.token) # armazena token corrente (necessario para id da primeira regra)
         if(self.ID()):
             self.Exp4Linha()
-        elif(self.token.getNome() == Tag.KW_INTEGER or self.token.getNome() == Tag.KW_DOUBLE or self.token.getNome() == Tag.STRING or self.token.getNome() == Tag.KW_TRUE or self.token.getNome() == Tag.KW_FALSE or self.token.getNome() == Tag.OP_UNARIO):
+            if tempToken.getTipo() == Tag.TIPO_VAZIO:
+                self.sinalizaErroSemantico("Variavel " + "\"" + tempToken.getLexema() + "\"" + " nao definida.")
+                noExp4.tipo = Tag.TIPO_ERRO
+        elif self.token.getNome() == Tag.KW_INTEGER:
+             self.advance()
+             noExp4.tipo = Tag.TIPO_INTER
+             pass
+        elif self.token.getNome() == Tag.KW_DOUBLE:
             self.advance()
-            return
+            noExp4.tipo = Tag.TIPO_DOUBLE
+            pass
+        elif self.token.getNome() == Tag.STRING: 
+            self.advance()
+            noExp4.tipo = Tag.TIPO_STRING
+            pass
+        elif self.token.getNome() == Tag.KW_TRUE: 
+            self.advance()
+            noExp4.tipo = Tag.TIPO_LOGICO
+            pass
+        elif self.token.getNome() == Tag.KW_FALSE: 
+            self.advance()
+            noExp4.tipo = Tag.TIPO_LOGICO
+            pass
+        elif self.token.getNome() == Tag.OP_UNARIO:
+            self.advance()
+            noExp4.tipo = Tag.TIPO_LOGICO
+            pass
         elif(self.eat(Tag.SIMB_ABRE_PARENT)):
             self.Expressao()
-            # if(not self.eat(Tag.SIMB_FECHA_PARENT)):
-            #     self.sinalizaErroSintatico("Esperado \")\"; encontrado " + "\"" + self.token.getLexema() + "\"")
+            if(not self.eat(Tag.SIMB_FECHA_PARENT)):
+                self.sinalizaErroSintatico("Esperado \")\"; encontrado " + "\"" + self.token.getLexema() + "\"")
         # else:
         #     self.sinalizaErroSintatico("Esperado \"if\"; encontrado " + "\"" + self.token.getLexema() + "\"")
+        return noExp4
 
 
     def Exp4Linha(self):

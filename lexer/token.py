@@ -36,4 +36,4 @@ class Token:
       self.coluna = coluna
 
    def toString(self):
-      return "<" + str(self.nome.name) + ", \"" + str(self.lexema) + "\"" + ", " + str(self.tipo) + ">";
+      return "<" + str(self.nome) + ", \"" + str(self.lexema) + "\"" + ", " + str(self.tipo) + ">";
