@@ -6,16 +6,19 @@ class Pressao2:
 
 	def bool podeEntregarDepoiss(bool dizQueSimm):
 		integer testess;
-		return testesss;
+		return testess;
 	end;
 	
     defstatic void main(String[] args):
     	integer teste;
 		bool teste2;
 
-		teste24 = 100;
+		podeEntregarDepoiss(teste2);
+
+		if(teste==teste2):
+			writeln("Teste 1:");
+		end;
 		
-		writeln("Teste 1:");
 		writeln("a");
 	end;
 end.

@@ -12,6 +12,7 @@ class Parser():
     def __init__(self, lexer):
       self.lexer = lexer
       self.token = lexer.proxToken() # Leitura inicial obrigatoria do primeiro simbolo
+      self.error = 0
 
     def sinalizaErroSemantico(self, message):
       print("[Erro Semantico] na linha " + str(self.token.getLinha()) + " e coluna " + str(self.token.getColuna()) + ": ")
@@ -20,9 +21,14 @@ class Parser():
     def sinalizaErroSintatico(self, message):
       print("[Erro Sintatico] na linha " + str(self.token.getLinha()) + " e coluna " + str(self.token.getColuna()) + ": ")
       print(message, "\n")
+      self.error += 1
+      print(self.error)
+      if self.error > 5:
+          sys.exit(0)
+
 
     def advance(self):
-    #   print("[DEBUG] token: ", self.token.toString())
+      print("[DEBUG] token: ", self.token.toString())
       self.token = self.lexer.proxToken()
 
       if self.token is None: # erro no Lexer
@@ -134,8 +140,12 @@ class Parser():
             self.ListaArg()
 
     def Arg(self):
+        noTipoPrimitivo = self.TipoPrimitivo()
         self.TipoPrimitivo()
+        tempToken = copy.copy(self.token)
         self.ID()
+        tempToken.setTipo(noTipoPrimitivo.tipo)
+        self.lexer.ts.addToken(tempToken.getLexema(), tempToken)
 
     def Retorno(self):
         
@@ -191,23 +201,18 @@ class Parser():
         if self.eat(Tag.KW_BOOL):
             noTipoPrimitivo.tipo = Tag.TIPO_LOGICO
             return noTipoPrimitivo
-            pass
         elif self.eat(Tag.KW_INTEGER):
             noTipoPrimitivo.tipo = Tag.TIPO_INT
             return noTipoPrimitivo
-            pass
         elif self.eat(Tag.KW_STRING): 
             noTipoPrimitivo.tipo = Tag.TIPO_STRING
             return noTipoPrimitivo
-            pass
         elif self.eat(Tag.KW_DOUBLE): 
             noTipoPrimitivo.tipo = Tag.TIPO_DOUBLE
             return noTipoPrimitivo
-            pass
         elif self.eat(Tag.KW_VOID):
             noTipoPrimitivo.tipo = Tag.TIPO_VAZIO
             return noTipoPrimitivo
-            pass
         # else:
         #     self.sinalizaErroSintatico("Esperado \"Operator\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
@@ -220,6 +225,7 @@ class Parser():
             self.ListaCmdLinha()
 
     def Cmd(self):
+        tempToken = copy.copy(self.token) # armazena token corrente (necessario para id da primeira regra)
         if self.token.getNome() == Tag.KW_IF:
             self.CmdIF()
         elif self.eat(Tag.KW_WHILE):
@@ -227,6 +233,9 @@ class Parser():
         elif self.token.getNome() == Tag.KW_WRITELN:
             self.CmdWrite()
         elif(self.eat(Tag.ID)):
+            if tempToken.getTipo() == Tag.TIPO_VAZIO:
+                self.sinalizaErroSemantico("Cmd " + "\"" + tempToken.getLexema() + "\"" + " nao definida.")
+                # noExp4.tipo = Tag.TIPO_ERRO
             # self.token = self.lexer.proxToken()
             self.CmdAtribFunc()
 
@@ -298,7 +307,7 @@ class Parser():
             else:
                 self.sinalizaErroSintatico("Esperado \"(\"; encontrado " + "\"" + self.token.getLexema() + "\"")
         else:
-            self.sinalizaErroSintatico("Esperado \"write\"; encontrado " + "\"" + self.token.getLexema() + "\"")
+            self.sinalizaErroSintatico("Esperado \"writeln\"; encontrado " + "\"" + self.token.getLexema() + "\"")
 
     def CmdAtribui(self):
         if(self.eat(Tag.OP_IGUAL)):
@@ -403,7 +412,7 @@ class Parser():
             pass
         elif self.token.getNome() == Tag.OP_UNARIO:
             self.advance()
-            noExp4.tipo = Tag.TIPO_LOGICO
+            noExp4.tipo = Tag.TIPO_NUMERO
             pass
         elif(self.eat(Tag.SIMB_ABRE_PARENT)):
             self.Expressao()
