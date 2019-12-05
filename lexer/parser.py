@@ -381,11 +381,11 @@ class Parser():
             if tempToken.getTipo() == Tag.TIPO_VAZIO:
                 self.sinalizaErroSemantico("Variavel " + "\"" + tempToken.getLexema() + "\"" + " nao definida.")
                 noExp4.tipo = Tag.TIPO_ERRO
-        elif self.token.getNome() == Tag.KW_INTEGER:
+        elif self.token.getNome() == Tag.INTEGER:
              self.advance()
-             noExp4.tipo = Tag.TIPO_INTER
+             noExp4.tipo = Tag.TIPO_INT
              pass
-        elif self.token.getNome() == Tag.KW_DOUBLE:
+        elif self.token.getNome() == Tag.DOUBLE:
             self.advance()
             noExp4.tipo = Tag.TIPO_DOUBLE
             pass

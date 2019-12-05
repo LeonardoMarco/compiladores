@@ -13,7 +13,7 @@ class Pressao2:
     	integer teste;
 		bool teste2;
 
-		teste2 = teste;
+		teste24 = 100;
 		
 		writeln("Teste 1:");
 		writeln("a");

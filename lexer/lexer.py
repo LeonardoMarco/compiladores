@@ -132,7 +132,7 @@ class Lexer():
                   self.lexemaAnt = lexema
                   return token
          elif(estado == 11):
-            if (c.isalnum() or c.isalpha() or c.isdigit() or c == '"' or c == " " or c == "!" or c == "," or c == "+" or c == "-" or c == "*" or c == "/" or c == "<" or c == "<=" or c == ">" or c == ">=" or c == "=" or c == "==" or c == "!" or c == "!=" or c == "(" or c == ':' or c == ';'):
+            if (c.isalnum() or c.isalpha() or c.isdigit() or c == '"' or c == " " or c == "!" or c == "," or c == "+" or c == "-" or c == "*" or c == "/" or c == "<" or c == "<=" or c == ">" or c == ">=" or c == "=" or c == "==" or c == "!" or c == "!=" or c == "(" or c == ':' ):
                lexema += c         
             else:
                self.retornaPonteiro()
